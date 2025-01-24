@@ -14,56 +14,54 @@ router.get("/", (req, res) => {
 });
 
 //localhost:3000/api/anything
-router.get("/:id", (req, res) => {
+router.get("/:id/45", (req, res) => {
     const { id } = req.params;
     res.status(200).json({
-        message: "GET by ID for api/",
+        message: "GET by ID IS WORKING",
+        id: id,
         metadata: {
             hostname: req.hostname,
             method: req.method,
-            id: id,
+            
         },
     });
 });
 
 //localhost:3000/api/anything to put
-router.put("/:id", (req, res) => {
+router.put("/:id/89", (req, res) => {
     const { id } = req.params;
-    const { data } = req.body;
     res.status(200).json({
-        message: "PUT by ID for api/",
+        message: "PUT BY ID IS WORKING",
+        id: id,
         metadata: {
             hostname: req.hostname,
             method: req.method,
-            id: id,
-            data: data,
         },
     });
 });
 
 //localhost:3000/api/anything to post
 router.post("/:id", (req, res) => {
-    const {data} = req.body;
+    const { id } = req.body;
     res.status(200).json({
-        message: "POST to api by id/",
-        data,
+        message: "POST BY ID IS WORKING",
+        id: id,
         metadata: {
             hostname: req.hostname,
             method: req.method,
-            data: data,
         },
     });
 });
 
 //localhost:3000/api/anything to delete
-router.delete("/:id", (req, res) => {
+router.delete("/:id/9", (req, res) => {
     const { id } = req.params;
     res.status(200).json({
-        message: "Item deleted",
+        message: "DELETE METHOD IS WORKING",
+        id: id,
         metadata: {
             hostname: req.hostname,
             method: req.method,
-            id: id,
         },
     });
 });
