@@ -5,7 +5,7 @@ const router = require("./routes");
 
 app.use(express.json());
 //localhost:3000/
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.status(200).json({
         message: "GET - root",
         metadata: {
@@ -14,5 +14,5 @@ app.get("/", (req, res) => {
         },
     });
 });
-app.use("/api", router);
+app.use("/api/v1", router);
 module.exports = app;
