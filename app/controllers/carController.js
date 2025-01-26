@@ -2,40 +2,85 @@ const Car = require('../models/Cars');
 
 
 const createCar = async (req, res) => {
-    console.log(req.body);
-    const {car} = req.body;
-    const newCar = await Car.create(car);
-    res.status(200).json({ data: newCar, message: `${req.method} - REQUEST MADE` });
-  };
+  console.log(req.body);
+  const {car} = req.body;
+  const newCar = await Car.create(car);
+  res.status(200).json({ data: newCar, message: `${req.method} - REQUEST MADE` });
+      };
 
-  const getCarId = async (req, res) => {
+const getCarId = async (req, res) => {
+  try{
     const car = await Car.findById(req.params.id);
-    res.status(200).json({ "data": car, success: true, message: `${req.method} - REQUEST MADE` });
+      if (!car) {
+          res.status(404).json({ success: false, message: "Car not found" });
+      }
+      res.status(200).json({ "data": car, success: true, message: `${req.method} - REQUEST MADE` });
 
-  };
+      }
+    catch (error) {
+    res.status(404).json({ success: false, message: "Car not found" });
+  }
+};
 
-  const getCar = async (req, res) => {   
+const getCar = async (req, res) => {
+  try{
     const car = await Car.find({});
-    res.status(200).json({"data": car, success: true, message: `${req.method} - REQUEST MADE` });
-  };
+      if (!car) {
+      res.status(404).json({ success: false, message: "No cars saved" });
+      }   
+      res.status(200).json({"data": car, success: true, message: `${req.method} - REQUEST MADE` });
+      }
+    catch (error) {
+      res.status(404).json({ success: false, message: "No cars saved" });
 
-  const putCar = async (req, res) => {
+  }
+};
+
+const putCar = async (req, res) => {
+  try {
     const { id } = req.params;
     const updates = req.body.car;
 
+
     const updatedCar = await Car.findByIdAndUpdate(id, updates, { new: true });
 
-    res.status(200).json({
-        "data": updatedCar,
-        success: true,
-        message: "Car updated successfully",
-    });
+
+      if (!updatedCar) {
+        return res.status(404).json({ success: false, message: 'Car not found',
+        });
+      }
+      res.status(200).json({data: updatedCar,success: true,message: 'Car updated successfully',
+      });
+
+    } catch (error) {
+     res.status(404).json({ success: false, message: "No cars saved" });
+
+  }
 };
 
-const deleteCar = async (req, res) => { 
-    const {id} = req.params;
-    const deleteCar = await Car.findByIdAndDelete( req.params.id);
-    res.status(200).json({ 'data': deleteCar, success: true, message: `${req.method} - REQUEST MADE` });
-  };
 
-  module.exports = {createCar, getCarId, getCar, putCar, deleteCar};
+const deleteCar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedCar = await Car.findByIdAndDelete(id);
+
+    if (!deletedCar) {
+      return res.status(404).json({ success: false, message: "Car not found" });
+    }
+
+    res.status(200).json({
+      data: deletedCar,
+      success: true,
+      message: `${req.method} - REQUEST MADE`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: `Error occurred while deleting car: ${error.message}`,
+    });
+  }
+};
+
+
+module.exports = {createCar, getCarId, getCar, putCar, deleteCar};
