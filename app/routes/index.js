@@ -3,6 +3,43 @@ const router = express.Router();
 
 const storedData = [];
 
+
+// Route: localhost:3000/api/v1/
+router.post("/", (req, res) => {
+  const { id, data } = req.body;
+  const randomId = Math.floor(Math.random() * 10000) + 1; // Generate a random ID between 1 and 10,000
+  const newItem = { id: randomId, data };
+
+  storedData.push({ newItem});
+
+  res.status(201).json({
+      message: "POST to API is working",
+      data: { id, data },
+      metadata: {
+          hostname: req.hostname,
+          method: req.method,
+      },
+  });
+});
+
+// router.post("/", (req, res) => {
+//   const id = Math.floor(Math.random() * 1000) + 1; // Random ID
+//   const { data } = req.body;
+
+//   const newItem = { id, data };
+//   storedData.push(newItem);
+
+//   res.status(200).json({
+//       message: "POST by ID is working",
+//       data: newItem,
+//       metadata: {
+//           hostname: req.hostname,
+//           method: req.method,
+//       },
+//   });
+// });
+
+
 // GET all data
 // Route: localhost:3000/api/
 router.get("/", (req, res) => {
@@ -42,24 +79,6 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// POST data by ID
-// Route: localhost:3000/api/:id
-router.post("/", (req, res) => {
-    const id = Math.floor(Math.random() * 1000) + 1;
-    const { data } = req.body;
-
-    const newItem = { id, data };
-    storedData.push(newItem);
-
-    res.status(200).json({
-        message: "POST by ID is working",
-        data: newItem,
-        metadata: {
-            hostname: req.hostname,
-            method: req.method,
-        },
-    });
-});
 
 // PUT data by ID (Update)
 // Route: localhost:3000/api/:id
