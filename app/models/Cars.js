@@ -8,6 +8,7 @@ const carSchema = new mongoose.Schema({
         unique: [true, 'Make already exists'],
         trim: true
     },
+    //test
     model: {
         type: String,
         required: [true, 'Please provide a model'],
