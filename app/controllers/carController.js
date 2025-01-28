@@ -2,11 +2,19 @@ const Car = require('../models/Cars');
 
 
 const createCar = async (req, res) => {
-  console.log(req.body);
-  const {car} = req.body;
-  const newCar = await Car.create(car);
-  res.status(200).json({ data: newCar, message: `${req.method} - REQUEST MADE` });
-      };
+  try{
+    console.log(req.body);
+    const {car} = req.body;
+    const newCar = (await Car.create(car));
+    res.status(200).json({ data: newCar, message: `${req.method} - REQUEST MADE` });
+    if(!newCar){
+      res.status(404).json({ success: false, message: "Car already exist" });
+    }
+  }
+    catch (error) {
+      res.status(404).json({ success: false, message: "Car already exists" });
+  }
+};
 
 const getCarId = async (req, res) => {
   try{
@@ -24,7 +32,7 @@ const getCarId = async (req, res) => {
 
 const getCar = async (req, res) => {
   try{
-    const car = await Car.find({});
+    const car = await Car.find({});  
       if (!car) {
       res.status(404).json({ success: false, message: "No cars saved" });
       }   
