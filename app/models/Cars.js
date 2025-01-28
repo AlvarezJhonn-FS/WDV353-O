@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const carSchema = new mongoose.Schema({
     make: {
         type: String,
@@ -29,6 +30,10 @@ const carSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide a color'],
         unique: [true, 'Color already exists']
+    },
+    manufacturer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Manufacturer',
     },
     created_at: {
         type: Date,
