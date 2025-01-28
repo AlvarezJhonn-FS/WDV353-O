@@ -13,5 +13,6 @@ const {
     router.get('/', getManufacturers);
     router.get('/:id', getManufacturerById); 
     router.put('/:id', updateManufacturer);
+    router.delete('/:id', deleteManufacturer);
 
     module.exports = router;
