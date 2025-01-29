@@ -6,20 +6,20 @@ const storedData = [];
 
 // Route: localhost:3000/api/v1/
 router.post("/", (req, res) => {
-  const { id, data } = req.body;
-  const randomId = Math.floor(Math.random() * 10000) + 1; // Generate a random ID between 1 and 10,000
-  const newItem = { id: randomId, data };
+    const { data } = req.body;
+    const randomId = Math.floor(Math.random() * 10000) + 1;
+    const newItem = { id: randomId, data };
 
-  storedData.push({ newItem});
+    storedData.push(newItem); 
 
-  res.status(201).json({
-      message: "POST to API is working",
-      data: { id, data },
-      metadata: {
-          hostname: req.hostname,
-          method: req.method,
-      },
-  });
+    res.status(201).json({
+        message: "POST to API is working",
+        data: newItem,
+        metadata: {
+            hostname: req.hostname,
+            method: req.method,
+        },
+    });
 });
 
 
@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
 router.get("/", (req, res) => {
     res.status(200).json({
         message: "GET to API is working",
-        data: storedData,
+        data: storedData, 
         metadata: {
             hostname: req.hostname,
             method: req.method,
@@ -38,7 +38,7 @@ router.get("/", (req, res) => {
 
 // GET data by ID
 // Route: localhost:3000/api/:id
-router.get("/:id", (req, res) => {
+router.get("/:id/45", (req, res) => {
     const { id } = req.params;
     const item = storedData.find((data) => data.id === parseInt(id, 10));
 
@@ -65,11 +65,11 @@ router.get("/:id", (req, res) => {
 
 // PUT data by ID (Update)
 // Route: localhost:3000/api/:id
-router.put("/:id", (req, res) => {
+router.put("/:id/89", (req, res) => {
     const { id } = req.params;
-    const { newId } = req.body;
+    const updates = req.body; // Accept all update fields from request body
 
-    const itemIndex = storedData.findIndex((data) => data.id === id);
+    const itemIndex = storedData.findIndex((item) => item.id === parseInt(id, 10));
 
     if (itemIndex === -1) {
         return res.status(404).json({
@@ -81,10 +81,10 @@ router.put("/:id", (req, res) => {
         });
     }
 
-    storedData[itemIndex].id = newId;
+    Object.assign(storedData[itemIndex], updates);
 
     res.status(200).json({
-        message: "PUT by ID is working",
+        message: "Item Updated",
         data: storedData[itemIndex],
         metadata: {
             hostname: req.hostname,
@@ -93,9 +93,10 @@ router.put("/:id", (req, res) => {
     });
 });
 
+
 // DELETE data by ID
 // Route: localhost:3000/api/:id
-router.delete("/:id", (req, res) => {
+router.delete("/:id/9", (req, res) => {
     const { id } = req.params;
 
     const itemIndex = storedData.findIndex((data) => data.id === id);
