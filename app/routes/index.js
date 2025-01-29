@@ -22,23 +22,6 @@ router.post("/", (req, res) => {
   });
 });
 
-// router.post("/", (req, res) => {
-//   const id = Math.floor(Math.random() * 1000) + 1; // Random ID
-//   const { data } = req.body;
-
-//   const newItem = { id, data };
-//   storedData.push(newItem);
-
-//   res.status(200).json({
-//       message: "POST by ID is working",
-//       data: newItem,
-//       metadata: {
-//           hostname: req.hostname,
-//           method: req.method,
-//       },
-//   });
-// });
-
 
 // GET all data
 // Route: localhost:3000/api/
